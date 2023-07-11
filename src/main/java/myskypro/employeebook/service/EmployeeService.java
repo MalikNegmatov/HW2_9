@@ -7,6 +7,7 @@ import myskypro.employeebook.exception.EmployeeStorageIsFullException;
 import org.springframework.stereotype.Service;
 
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +15,7 @@ import java.util.Map;
 public class EmployeeService {
 
     //private final List<Employee> employees = new ArrayList<>();
-    private Map<String, Employee> employees = new HashMap();
+    private final Map<String, Employee> employees = new HashMap<>();
 
     private final static int MAX_SIZE = 2;
 
@@ -35,14 +36,12 @@ public class EmployeeService {
         return newEmployee;
     }
 
-
     public Employee find(String firstName, String lastName) {
         Employee employeeForFound = new Employee(firstName, lastName);
         if (employees.containsKey(employeeForFound.toString())) {
             return employees.get(employeeForFound.toString());
         }
         throw new
-
                 EmployeeNotFoundException("Такого сотрудника нет");
     }
 
@@ -54,4 +53,9 @@ public class EmployeeService {
         }
         throw new EmployeeNotFoundException("Сотрудник не удален - не был найден в базе");
     }
+
+    public Collection<Employee> getAll() {
+        return employees.values();
+    }
+
 }

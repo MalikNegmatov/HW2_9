@@ -5,7 +5,7 @@ import myskypro.employeebook.service.EmployeeService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpStatusCodeException;
 
-import java.util.List;
+import java.util.Collection;
 
 @RestController
 @RequestMapping("/employee")
@@ -38,7 +38,7 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public List<Employee> getAll() {
+    public Collection<Employee> getAll() {
         return employeeService.getAll();
     }
 }
