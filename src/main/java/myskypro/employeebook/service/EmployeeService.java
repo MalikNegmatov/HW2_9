@@ -6,13 +6,15 @@ import myskypro.employeebook.exception.EmployeeNotFoundException;
 import myskypro.employeebook.exception.EmployeeStorageIsFullException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class EmployeeService {
 
-    private final List<Employee> employees = new ArrayList<>();
+    //private final List<Employee> employees = new ArrayList<>();
+    private Map<String, Employee> employees = new HashMap();
 
     private final static int MAX_SIZE = 2;
 
@@ -24,37 +26,32 @@ public class EmployeeService {
 
         Employee newEmployee = new Employee(firstName, lastName);
 
-        if (employees.contains(newEmployee)) {
+        if (employees.containsKey(newEmployee.toString())) {
             throw new EmployeeAlreadyAddedException("Такой сотрудник уже есть");
         }
 
-        employees.add(newEmployee);
+        employees.put(newEmployee.toString(), newEmployee);
+
         return newEmployee;
     }
 
+
     public Employee find(String firstName, String lastName) {
         Employee employeeForFound = new Employee(firstName, lastName);
-        for (Employee e : employees) {
-            if (e.equals(employeeForFound)) {
-                return e;
-            }
+        if (employees.containsKey(employeeForFound.toString())) {
+            return employees.get(employeeForFound.toString());
         }
+        throw new
 
-        throw new EmployeeNotFoundException("Такого сотрудника нет");
+                EmployeeNotFoundException("Такого сотрудника нет");
     }
 
     public Employee remove(String firstName, String lastName) {
         Employee employeeForRemove = new Employee(firstName, lastName);
 
-        boolean removeResult = employees.remove(employeeForRemove);
-        if (removeResult) {
-            return employeeForRemove;
-        } else {
-            throw new EmployeeNotFoundException("Сотрудник не удален - не был найден в базе");
+        if (employees.containsKey(employeeForRemove.toString())) {
+            return employees.remove(employeeForRemove.toString());
         }
-    }
-
-    public List<Employee> getAll() {
-        return employees;
+        throw new EmployeeNotFoundException("Сотрудник не удален - не был найден в базе");
     }
 }
