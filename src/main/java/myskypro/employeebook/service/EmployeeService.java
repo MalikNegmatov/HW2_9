@@ -25,7 +25,7 @@ public class EmployeeService {
             throw new EmployeeStorageIsFullException("Массив сотрудников переполнен");
         }
 
-        Employee newEmployee = new Employee(firstName, lastName);
+        Employee newEmployee = new Employee(firstName, lastName, salary, department);
 
         if (employees.containsKey(newEmployee.toString())) {
             throw new EmployeeAlreadyAddedException("Такой сотрудник уже есть");
@@ -37,7 +37,7 @@ public class EmployeeService {
     }
 
     public Employee find(String firstName, String lastName) {
-        Employee employeeForFound = new Employee(firstName, lastName);
+        Employee employeeForFound = new Employee(firstName, lastName, salary, department);
         if (employees.containsKey(employeeForFound.toString())) {
             return employees.get(employeeForFound.toString());
         }
@@ -46,7 +46,7 @@ public class EmployeeService {
     }
 
     public Employee remove(String firstName, String lastName) {
-        Employee employeeForRemove = new Employee(firstName, lastName);
+        Employee employeeForRemove = new Employee(firstName, lastName, salary, department);
 
         if (employees.containsKey(employeeForRemove.toString())) {
             return employees.remove(employeeForRemove.toString());
