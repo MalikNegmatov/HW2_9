@@ -22,7 +22,12 @@ public class Employee {
     public String getLastName() {
         return lastName;
     }
-
+    public double getSalary() {
+        return salary;
+    }
+    public int getDepartmentId() {
+        return departmentId;
+    }
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
