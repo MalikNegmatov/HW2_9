@@ -4,6 +4,8 @@ import myskypro.employeebook.entity.Employee;
 import myskypro.employeebook.exception.EmployeeAlreadyAddedException;
 import myskypro.employeebook.exception.EmployeeNotFoundException;
 import myskypro.employeebook.exception.EmployeeStorageIsFullException;
+import myskypro.employeebook.exception.WrongTypedException;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 
@@ -21,6 +23,8 @@ public class EmployeeService {
 
     public Employee add(String firstName, String lastName, double salary, int departmentId) {
 
+        checkNames(firstName, lastName);
+
         if (employees.size() >= MAX_SIZE) {
             throw new EmployeeStorageIsFullException("Массив сотрудников переполнен");
         }
@@ -35,6 +39,37 @@ public class EmployeeService {
 
         return newEmployee;
     }
+
+
+    private void checkNames(String firstName, String lastName) {
+        checkNamesIsAlpha(firstName, lastName);
+        checkNamesCapitalize(firstName, lastName);
+    }
+
+    private void checkNamesIsAlpha(String firstName, String lastName) {
+        if (!StringUtils.isAlpha(firstName)) {
+            throw new WrongTypedException("Имя сотрудника должно состоять исключительно из букв");
+        }
+
+        if (!StringUtils.isAlpha(lastName)) {
+            throw new WrongTypedException("Фамилия сотрудника должна состоять исключительно из букв");
+        }
+    }
+
+    private void checkNamesCapitalize(String firstName, String lastName) {
+        String capitalizeFirstName = StringUtils.capitalize(firstName);
+
+        if (!firstName.equals(capitalizeFirstName)) {
+            throw new WrongTypedException("Имя сотрудника должно начинаться с заглавной буквы");
+        }
+
+        String capitalizeLastName = StringUtils.capitalize(lastName);
+
+        if (!lastName.equals(capitalizeLastName)) {
+            throw new WrongTypedException("Фамилия сотрудника должна начинаться с заглавной буквы");
+        }
+    }
+
 
     public Employee find(String firstName, String lastName, double salary, int departmentId) {
         Employee employeeForFound = new Employee(firstName, lastName, salary, departmentId);
