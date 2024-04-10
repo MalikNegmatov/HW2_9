@@ -23,13 +23,13 @@ public class EmployeeService {
 
     public Employee add(String firstName, String lastName, double salary, int departmentId) {
 
-        checkNames(firstName, lastName);
+        checkNamesIsAlpha(firstName, lastName);
 
         if (employees.size() >= MAX_SIZE) {
             throw new EmployeeStorageIsFullException("Массив сотрудников переполнен");
         }
 
-        Employee newEmployee = new Employee(firstName, lastName, salary, departmentId);
+        Employee newEmployee = new Employee(StringUtils.capitalize(firstName), StringUtils.capitalize(lastName), salary, departmentId);
 
         if (employees.containsKey(newEmployee.toString())) {
             throw new EmployeeAlreadyAddedException("Такой сотрудник уже есть");
@@ -38,12 +38,6 @@ public class EmployeeService {
         employees.put(newEmployee.toString(), newEmployee);
 
         return newEmployee;
-    }
-
-
-    private void checkNames(String firstName, String lastName) {
-        checkNamesIsAlpha(firstName, lastName);
-        checkNamesCapitalize(firstName, lastName);
     }
 
     private void checkNamesIsAlpha(String firstName, String lastName) {
@@ -55,21 +49,6 @@ public class EmployeeService {
             throw new WrongTypedException("Фамилия сотрудника должна состоять исключительно из букв");
         }
     }
-
-    private void checkNamesCapitalize(String firstName, String lastName) {
-        String capitalizeFirstName = StringUtils.capitalize(firstName);
-
-        if (!firstName.equals(capitalizeFirstName)) {
-            throw new WrongTypedException("Имя сотрудника должно начинаться с заглавной буквы");
-        }
-
-        String capitalizeLastName = StringUtils.capitalize(lastName);
-
-        if (!lastName.equals(capitalizeLastName)) {
-            throw new WrongTypedException("Фамилия сотрудника должна начинаться с заглавной буквы");
-        }
-    }
-
 
     public Employee find(String firstName, String lastName, double salary, int departmentId) {
         Employee employeeForFound = new Employee(firstName, lastName, salary, departmentId);
