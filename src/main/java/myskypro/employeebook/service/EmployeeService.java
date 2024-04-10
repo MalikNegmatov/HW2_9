@@ -4,7 +4,7 @@ import myskypro.employeebook.entity.Employee;
 import myskypro.employeebook.exception.EmployeeAlreadyAddedException;
 import myskypro.employeebook.exception.EmployeeNotFoundException;
 import myskypro.employeebook.exception.EmployeeStorageIsFullException;
-import myskypro.employeebook.exception.WrongTypedException;
+import myskypro.employeebook.exception.BadTypedNamesException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -42,11 +42,11 @@ public class EmployeeService {
 
     private void checkNamesIsAlpha(String firstName, String lastName) {
         if (!StringUtils.isAlpha(firstName)) {
-            throw new WrongTypedException("Имя сотрудника должно состоять исключительно из букв");
+            throw new BadTypedNamesException("Имя сотрудника должно состоять исключительно из букв");
         }
 
         if (!StringUtils.isAlpha(lastName)) {
-            throw new WrongTypedException("Фамилия сотрудника должна состоять исключительно из букв");
+            throw new BadTypedNamesException("Фамилия сотрудника должна состоять исключительно из букв");
         }
     }
 
