@@ -3,9 +3,9 @@ package myskypro.employeebook.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpStatusCodeException;
 
-public class WrongTypedException extends HttpStatusCodeException {
+public class BadTypedNamesException extends HttpStatusCodeException {
 
-    public WrongTypedException(String message) {
+    public BadTypedNamesException(String message) {
         super(HttpStatus.BAD_REQUEST, message);
     }
 }
